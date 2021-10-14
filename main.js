@@ -3,8 +3,32 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+//Creates an array of like elements (heart)
+const likeArray = document.querySelectorAll('.like-glyph');
 
+//Adds a 'click' event to each 'like' element in our array
+likeArray.forEach(function(like){
+  like.addEventListener('click', function(){
+      mimicServerCall()
+      .then(function(){ //This displays is the response is a succcess
+        if(like.textContent === EMPTY_HEART){
+          like.textContent = FULL_HEART;
+          like.classList.add('activated-heart');
+        } else{
+          like.textContent = EMPTY_HEART;
+          like.classList.remove('activated-heart');
+        }
+      })
+      .catch(function(error){ //This displays if the response is a failure
+        let modal = document.querySelector('#modal');
+        document.querySelector('#modal-message').textContent = error;
+        modal.className = 'show';
 
+        setTimeout(()=> modal.className = 'hidden', 3000);
+      })
+    
+  })
+})
 
 
 //------------------------------------------------------------------------------
